@@ -18,6 +18,7 @@ func LoadRegexMap() {
 	regexes[0] = map[int]string{0: `(?i)Venda dis`, 1: `[0-9a-zA-ZÀ-ÿ ]*`, 2: `ócios`, 3: `(?i)ócios[0-9, |a-zA-Z]* [C|D]+ `}
 	regexes[1] = map[int]string{0: `(?i)IRRF`, 1: `[0-9, |a-z A-ZÀ-ÿ&+().]*`, 2: `gar\)`, 3: `(?i)gar\)[0-9, |a-zA-Z]* [C|D]+ `}
 	regexes[3] = map[int]string{0: `(?i)\+Ou`, 1: `[0-9, |a-z A-ZÀ-ÿ&+().]*`, 2: `ais`, 3: `(?i)ais[0-9, |a-zA-Z]* [C|D]+ `}
+	regexes[4] = map[int]string{0: `(?i) \Outros`, 1: `[0-9, |a-z A-ZÀ-ÿ&+().#]*`, 2: `nota`, 3: `(?i)nota[0-9, |a-zA-Z]* [C|D]+ `}
 	for key := range regexes {
 		regexesKeys = append(regexesKeys, key)
 	}
