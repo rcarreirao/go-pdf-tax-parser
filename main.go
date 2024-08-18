@@ -9,11 +9,15 @@ import (
 	"pdf_balance_parser/misc/pdf"
 	"pdf_balance_parser/pkg/model/document"
 
+	"github.com/joho/godotenv"
 	"github.com/urfave/cli/v2"
 )
 
 func main() {
-
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 	app := &cli.App{
 		Name:  "Pdf Tax Parser",
 		Usage: "An application to calculate monthly taxes for day trade users",
@@ -39,7 +43,6 @@ func main() {
 					if cCtx.Args().Len() < 1 {
 						return cli.Exit("File parameter not sent", 86)
 					}
-					parser.LoadRegexMap()
 					content, err := pdf.ReadPdf(cCtx.Args().Get(0))
 					document := document.Document{
 						Content: content,
