@@ -3,6 +3,7 @@ package migrate
 import (
 	"fmt"
 	"os"
+	"pdf_balance_parser/pkg/helper"
 	"pdf_balance_parser/pkg/model/auction"
 	"pdf_balance_parser/pkg/model/trading_note"
 
@@ -11,10 +12,7 @@ import (
 )
 
 func MigrateExec() {
-	db, err := gorm.Open(sqlite.Open(os.Getenv("DB_DATABASE")), &gorm.Config{})
-	if err != nil {
-		panic("failed to connect database")
-	}
+	db := checkDatabaseFile()
 
 	// Migrate the schema
 	fmt.Println("Migrating Auction Days")
@@ -23,4 +21,16 @@ func MigrateExec() {
 	db.AutoMigrate(&trading_note.TradingNotes{})
 	fmt.Println("Migrating Trading Note Summary")
 	db.AutoMigrate(&trading_note.TradingNoteSummaries{})
+}
+
+func checkDatabaseFile() *gorm.DB {
+	pathInfo := helper.Pathinfo(os.Getenv("DB_DATABASE"))
+	if !helper.Exists(pathInfo["dirname"]) {
+		os.MkdirAll(pathInfo["dirname"], 0755)
+	}
+	db, err := gorm.Open(sqlite.Open(os.Getenv("DB_DATABASE")), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+	return db
 }
