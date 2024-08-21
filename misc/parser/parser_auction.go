@@ -25,7 +25,7 @@ func LoadRegexMapAuction() {
 	sort.Ints(regexesKeys)
 }
 
-func ParseDocumentAuction(d document.Document) {
+func ParseDocumentAuction(d document.Document) auction.AuctionDays {
 	LoadRegexMapAuction()
 
 	output, _ := iconv.ConvertString(d.Content, "iso-8859-1", "iso-8859-1")
@@ -57,18 +57,21 @@ func ParseDocumentAuction(d document.Document) {
 		}
 	}
 	composeAuctionDay(auctionDaySummary, auctionDay)
-	storeAuctionDay(auctionDay)
+	storeOrUpdateAuctionDay(auctionDay)
+	return *auctionDay
 }
 
 func composeAuctionDay(auctionDaySummary *auction.AuctionDaySummary, auctionDay *auction.AuctionDays) {
 	auctionDay.AuctionDay = auctionDaySummary.AuctionDayLine1.AuctionDay
 	auctionDay.CustomerCode = auctionDaySummary.AuctionDayLine2.Value
 	auctionDay.InvoiceId = auctionDaySummary.AuctionDayLine3.Value
-
 }
 
 func storeAuctionDay(auctionDay *auction.AuctionDays) {
 	tradingRepository := new(auction_repository.AuctionDayRepository)
-	tradingRepository.New()
-	tradingRepository.Store(auctionDay)
+	tradingRepository.New().Store(auctionDay)
+}
+func storeOrUpdateAuctionDay(auctionDay *auction.AuctionDays) {
+	tradingRepository := new(auction_repository.AuctionDayRepository)
+	tradingRepository.New().StoreOrUpdate(&auction.AuctionDays{AuctionDay: auctionDay.AuctionDay}, auctionDay)
 }

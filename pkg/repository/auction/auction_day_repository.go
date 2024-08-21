@@ -26,9 +26,10 @@ func (repository AuctionDayRepository) Store(auctionDay *auction.AuctionDays) {
 	repository.connection.Create(auctionDay)
 }
 
-func (repository AuctionDayRepository) StoreOrUpdate(auctionDay *auction.AuctionDays) auction.AuctionDays {
-	var tempAuctionDay = repository.Find(auctionDay.ID)
-	return tempAuctionDay
+func (repository AuctionDayRepository) StoreOrUpdate(conditional *auction.AuctionDays, AuctionDay *auction.AuctionDays) *auction.AuctionDays {
+	repository.connection.FirstOrCreate(AuctionDay, conditional)
+	repository.connection.Model(AuctionDay).Updates(AuctionDay)
+	return AuctionDay
 }
 
 func (repository AuctionDayRepository) Find(id uint) auction.AuctionDays {

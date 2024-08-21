@@ -25,3 +25,8 @@ func (r *TradingNoteRepository) New() TradingNoteRepository {
 func (repository TradingNoteRepository) Store(trading_note_summary *trading_note.TradingNoteSummaries) {
 	repository.connection.Create(trading_note_summary)
 }
+
+func (repository TradingNoteRepository) StoreOrUpdate(conditional map[string]interface{}, trading_note_summary *trading_note.TradingNoteSummaries) {
+	repository.connection.FirstOrCreate(trading_note_summary, conditional)
+	repository.connection.Model(trading_note_summary).Updates(trading_note_summary)
+}

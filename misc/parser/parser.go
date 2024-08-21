@@ -1,6 +1,9 @@
 package parser
 
 import (
+	"log"
+	"os"
+	"pdf_balance_parser/misc/pdf"
 	"pdf_balance_parser/pkg/model/document"
 	"strings"
 )
@@ -8,9 +11,31 @@ import (
 var regexes map[int]map[int]string
 var regexesKeys []int
 
+func ParseFile(file string) document.Document {
+	content, err := pdf.ReadPdf(file)
+	if err != nil {
+		panic(err)
+	}
+	document := document.Document{
+		Content: content,
+	}
+	return document
+}
+
+func ParseDirectory(directory string) {
+	entries, err := os.ReadDir(directory)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, e := range entries {
+		ParseDocument(ParseFile(e.Name()))
+	}
+}
+
 func ParseDocument(d document.Document) {
-	ParseDocumentAuction(d)
-	ParseDocumentTradingNote(d)
+	auctionDay := ParseDocumentAuction(d)
+	ParseDocumentTradingNote(auctionDay, d)
 }
 
 func replaceBoundariesRowValues(regex string, line *string) {

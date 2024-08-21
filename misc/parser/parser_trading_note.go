@@ -2,6 +2,7 @@ package parser
 
 import (
 	"fmt"
+	"pdf_balance_parser/pkg/model/auction"
 	"pdf_balance_parser/pkg/model/document"
 	"pdf_balance_parser/pkg/model/parser"
 	"pdf_balance_parser/pkg/model/trading_note"
@@ -15,7 +16,7 @@ import (
 
 type pFunc func(*string)
 
-func LoadRegexMap() {
+func LoadRegexMapTradingNote() {
 	regexes = make(map[int]map[int]string)
 	regexes[0] = map[int]string{0: `(?i)Venda dis`, 1: `[0-9a-zA-ZÀ-ÿ ]*`, 2: `ócios`, 3: `(?i)ócios[0-9, |a-zA-Z]* [C|D]+ `}
 	regexes[1] = map[int]string{0: `(?i)IRRF`, 1: `[0-9, |a-z A-ZÀ-ÿ&+().]*`, 2: `gar\)`, 3: `(?i)gar\)[0-9, |a-zA-Z]* [C|D]+ `}
@@ -32,9 +33,10 @@ func adjustCurrencyFormat(line *string) {
 	*line = strings.Replace(*line, ",", ".", 10)
 }
 
-func ParseDocumentTradingNote(d document.Document) {
+func ParseDocumentTradingNote(auctionDay auction.AuctionDays, d document.Document) {
 	output, _ := iconv.ConvertString(d.Content, "iso-8859-1", "iso-8859-1")
 	fmt.Println(output)
+	LoadRegexMapTradingNote()
 
 	var headerRegex *regexp.Regexp
 	var regexError error
@@ -61,6 +63,7 @@ func ParseDocumentTradingNote(d document.Document) {
 	}
 	var tradingNote = new(trading_note.TradingNotes)
 	var tradingNoteSummary = new(trading_note.TradingNoteSummaries)
+	tradingNoteSummary.AuctionDay = auctionDay
 	composeTradingNote(summary, tradingNote)
 	composeTradingNoteSummary(summary, tradingNoteSummary)
 	store(tradingNoteSummary)
@@ -107,5 +110,5 @@ func composeTradingNoteSummary(summary *parser.Summary, trading_note_summary *tr
 func store(trading_note_summary *trading_note.TradingNoteSummaries) {
 	tradingRepository := new(trading_note_repository.TradingNoteRepository)
 	tradingRepository.New()
-	tradingRepository.Store(trading_note_summary)
+	tradingRepository.StoreOrUpdate(map[string]interface{}{"auction_day_id": trading_note_summary.AuctionDay.ID}, trading_note_summary)
 }
