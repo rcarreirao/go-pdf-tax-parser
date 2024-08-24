@@ -6,7 +6,7 @@ require (
 	github.com/djimenez/iconv-go v0.0.0-20160305225143-8960e66bd3da
 	github.com/dslipak/pdf v0.0.2
 	github.com/joho/godotenv v1.5.1
-	github.com/rcarreirao/golang_pdf_eof_fix v0.0.0-00010101000000-000000000000
+	github.com/rcarreirao/golang_pdf_eof_fix v0.0.0-20240821215013-f7014c8dcf0c
 	github.com/urfave/cli/v2 v2.27.3
 	gorm.io/driver/sqlite v1.5.6
 	gorm.io/gorm v1.25.11
