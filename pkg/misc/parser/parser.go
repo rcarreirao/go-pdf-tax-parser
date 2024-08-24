@@ -3,7 +3,7 @@ package parser
 import (
 	"log"
 	"os"
-	"pdf_balance_parser/misc/pdf"
+	"pdf_balance_parser/pkg/misc/pdf"
 	"pdf_balance_parser/pkg/model/document"
 	"strings"
 )
