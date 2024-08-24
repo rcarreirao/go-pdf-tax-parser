@@ -9,6 +9,7 @@ import (
 	"github.com/rcarreirao/pdf_balance_parser/pkg/model/auction"
 	"github.com/rcarreirao/pdf_balance_parser/pkg/model/document"
 	auction_repository "github.com/rcarreirao/pdf_balance_parser/pkg/repository/auction"
+	"gorm.io/gorm"
 
 	"github.com/djimenez/iconv-go"
 )
@@ -77,8 +78,8 @@ func storeOrUpdateAuctionDay(auctionDay *auction.AuctionDays) {
 	tradingRepository.New().StoreOrUpdate(&auction.AuctionDays{AuctionDay: auctionDay.AuctionDay}, auctionDay)
 }
 
-func listAuctionDays() {
+func ListAuctionDays() *gorm.DB {
 	tradingRepository := new(auction_repository.AuctionDayRepository)
-	tradingRepository.List()
-
+	result := tradingRepository.New().List()
+	return result
 }
