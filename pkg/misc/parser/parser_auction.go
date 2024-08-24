@@ -9,7 +9,6 @@ import (
 	"github.com/rcarreirao/pdf_balance_parser/pkg/model/auction"
 	"github.com/rcarreirao/pdf_balance_parser/pkg/model/document"
 	auction_repository "github.com/rcarreirao/pdf_balance_parser/pkg/repository/auction"
-	"gorm.io/gorm"
 
 	"github.com/djimenez/iconv-go"
 )
@@ -70,16 +69,22 @@ func composeAuctionDay(auctionDaySummary *auction.AuctionDaySummary, auctionDay 
 }
 
 func storeAuctionDay(auctionDay *auction.AuctionDays) {
-	tradingRepository := new(auction_repository.AuctionDayRepository)
-	tradingRepository.New().Store(auctionDay)
+	auctionDayRepository := new(auction_repository.AuctionDayRepository)
+	auctionDayRepository.New().Store(auctionDay)
 }
 func storeOrUpdateAuctionDay(auctionDay *auction.AuctionDays) {
-	tradingRepository := new(auction_repository.AuctionDayRepository)
-	tradingRepository.New().StoreOrUpdate(&auction.AuctionDays{AuctionDay: auctionDay.AuctionDay}, auctionDay)
+	auctionDayRepository := new(auction_repository.AuctionDayRepository)
+	auctionDayRepository.New().StoreOrUpdate(&auction.AuctionDays{AuctionDay: auctionDay.AuctionDay}, auctionDay)
 }
 
-func ListAuctionDays() *gorm.DB {
-	tradingRepository := new(auction_repository.AuctionDayRepository)
-	result := tradingRepository.New().List()
+func ListAuctionDays() []auction.AuctionDays {
+	auctionDayRepository := new(auction_repository.AuctionDayRepository)
+	result := auctionDayRepository.New().List()
+	return result
+}
+
+func ListMontlhyAuctions() []auction.MonthlyAuction {
+	auctionDayRepository := new(auction_repository.AuctionDayRepository)
+	result := auctionDayRepository.New().ListMonthlyAuctions()
 	return result
 }

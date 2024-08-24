@@ -39,7 +39,14 @@ func (repository AuctionDayRepository) Find(id uint) auction.AuctionDays {
 	return AuctionDay
 }
 
-func (repository AuctionDayRepository) List() *gorm.DB {
-	result := repository.connection.Find(&auction.AuctionDays{})
-	return result
+func (repository AuctionDayRepository) List() []auction.AuctionDays {
+	var auctionDays []auction.AuctionDays
+	repository.connection.Find(&auctionDays)
+	return auctionDays
+}
+
+func (repository AuctionDayRepository) ListMonthlyAuctions() []auction.MonthlyAuction {
+	var monthlyAuction []auction.MonthlyAuction
+	repository.connection.Distinct("MONTH(auction_day)").Find(&monthlyAuction)
+	return monthlyAuction
 }
