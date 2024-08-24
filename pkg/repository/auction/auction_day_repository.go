@@ -2,7 +2,8 @@ package auction_repository
 
 import (
 	"os"
-	"pdf_balance_parser/pkg/model/auction"
+
+	"github.com/rcarreirao/pdf_balance_parser/pkg/model/auction"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"

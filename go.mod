@@ -1,4 +1,4 @@
-module pdf_balance_parser
+module github.com/rcarreirao/pdf_balance_parser
 
 go 1.22.4
 

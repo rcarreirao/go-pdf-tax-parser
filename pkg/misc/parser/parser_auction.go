@@ -2,12 +2,13 @@ package parser
 
 import (
 	"fmt"
-	"pdf_balance_parser/pkg/model/auction"
-	"pdf_balance_parser/pkg/model/document"
-	auction_repository "pdf_balance_parser/pkg/repository/auction"
 	"regexp"
 	"sort"
 	"strings"
+
+	"github.com/rcarreirao/pdf_balance_parser/pkg/model/auction"
+	"github.com/rcarreirao/pdf_balance_parser/pkg/model/document"
+	auction_repository "github.com/rcarreirao/pdf_balance_parser/pkg/repository/auction"
 
 	"github.com/djimenez/iconv-go"
 )

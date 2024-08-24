@@ -1,7 +1,7 @@
 package trading_note
 
 import (
-	"pdf_balance_parser/pkg/model/auction"
+	"github.com/rcarreirao/pdf_balance_parser/pkg/model/auction"
 
 	"gorm.io/gorm"
 )

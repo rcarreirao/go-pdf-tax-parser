@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"pdf_balance_parser/database/migrate"
-	"pdf_balance_parser/pkg/misc/parser"
+
+	"github.com/rcarreirao/pdf_balance_parser/database/migrate"
+	"github.com/rcarreirao/pdf_balance_parser/pkg/misc/parser"
 
 	"github.com/joho/godotenv"
 	pdf_eof_fix "github.com/rcarreirao/golang_pdf_eof_fix"

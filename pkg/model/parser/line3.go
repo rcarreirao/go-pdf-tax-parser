@@ -1,8 +1,9 @@
 package parser
 
 import (
-	"pdf_balance_parser/pkg/helper"
 	"strconv"
+
+	"github.com/rcarreirao/pdf_balance_parser/pkg/helper"
 )
 
 type Line3 struct {

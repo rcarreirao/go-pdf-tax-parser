@@ -2,7 +2,8 @@ package trading_note_repository
 
 import (
 	"os"
-	"pdf_balance_parser/pkg/model/trading_note"
+
+	"github.com/rcarreirao/pdf_balance_parser/pkg/model/trading_note"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"

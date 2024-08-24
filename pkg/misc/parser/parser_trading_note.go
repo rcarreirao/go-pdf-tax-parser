@@ -2,14 +2,16 @@ package parser
 
 import (
 	"fmt"
-	"pdf_balance_parser/pkg/model/auction"
-	"pdf_balance_parser/pkg/model/document"
-	"pdf_balance_parser/pkg/model/parser"
-	"pdf_balance_parser/pkg/model/trading_note"
-	trading_note_repository "pdf_balance_parser/pkg/repository/trading_note"
 	"regexp"
 	"sort"
 	"strings"
+
+	"github.com/rcarreirao/pdf_balance_parser/pkg/model/auction"
+	"github.com/rcarreirao/pdf_balance_parser/pkg/model/document"
+
+	"github.com/rcarreirao/pdf_balance_parser/pkg/model/parser"
+	"github.com/rcarreirao/pdf_balance_parser/pkg/model/trading_note"
+	trading_note_repository "github.com/rcarreirao/pdf_balance_parser/pkg/repository/trading_note"
 
 	"github.com/djimenez/iconv-go"
 )

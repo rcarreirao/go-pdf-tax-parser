@@ -3,9 +3,10 @@ package migrate
 import (
 	"fmt"
 	"os"
-	"pdf_balance_parser/pkg/helper"
-	"pdf_balance_parser/pkg/model/auction"
-	"pdf_balance_parser/pkg/model/trading_note"
+
+	"github.com/rcarreirao/pdf_balance_parser/pkg/helper"
+	"github.com/rcarreirao/pdf_balance_parser/pkg/model/auction"
+	"github.com/rcarreirao/pdf_balance_parser/pkg/model/trading_note"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"

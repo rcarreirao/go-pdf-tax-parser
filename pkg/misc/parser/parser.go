@@ -3,9 +3,10 @@ package parser
 import (
 	"log"
 	"os"
-	"pdf_balance_parser/pkg/misc/pdf"
-	"pdf_balance_parser/pkg/model/document"
 	"strings"
+
+	"github.com/rcarreirao/pdf_balance_parser/pkg/misc/pdf"
+	"github.com/rcarreirao/pdf_balance_parser/pkg/model/document"
 )
 
 var regexes map[int]map[int]string
