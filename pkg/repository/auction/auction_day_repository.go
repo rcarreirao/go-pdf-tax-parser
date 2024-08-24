@@ -37,3 +37,8 @@ func (repository AuctionDayRepository) Find(id uint) auction.AuctionDays {
 	repository.connection.First(&AuctionDay)
 	return AuctionDay
 }
+
+func (repository AuctionDayRepository) List() *gorm.DB {
+	result := repository.connection.Find(&auction.AuctionDays{})
+	return result
+}

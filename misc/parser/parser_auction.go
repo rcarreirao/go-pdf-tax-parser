@@ -75,3 +75,9 @@ func storeOrUpdateAuctionDay(auctionDay *auction.AuctionDays) {
 	tradingRepository := new(auction_repository.AuctionDayRepository)
 	tradingRepository.New().StoreOrUpdate(&auction.AuctionDays{AuctionDay: auctionDay.AuctionDay}, auctionDay)
 }
+
+func listAuctionDays() {
+	tradingRepository := new(auction_repository.AuctionDayRepository)
+	tradingRepository.List()
+
+}
