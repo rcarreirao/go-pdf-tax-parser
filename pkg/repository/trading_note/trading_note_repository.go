@@ -31,3 +31,9 @@ func (repository TradingNoteRepository) StoreOrUpdate(conditional map[string]int
 	repository.connection.FirstOrCreate(trading_note_summary, conditional)
 	repository.connection.Model(trading_note_summary).Updates(trading_note_summary)
 }
+
+func (repository TradingNoteRepository) List() []trading_note.TradingNoteSummaries {
+	var tradingNoteSummaries []trading_note.TradingNoteSummaries
+	repository.connection.Find(&tradingNoteSummaries)
+	return tradingNoteSummaries
+}

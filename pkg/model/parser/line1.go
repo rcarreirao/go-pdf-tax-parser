@@ -21,7 +21,7 @@ func (l *Line1) ParseLines(line *string) {
 	l.SellAvailable, _ = strconv.ParseFloat(columns[0], 64)
 	l.BuyAvailable, _ = strconv.ParseFloat(columns[1], 64)
 	l.SellOptions, _ = strconv.ParseFloat(columns[2], 64)
-	l.BusinessValue, _ = strconv.ParseFloat(columns[3], 64)
-	l.BusinessValueOp = columns[4]
+	l.BusinessValue, _ = strconv.ParseFloat(columns[4], 64)
+	l.BusinessValueOp = columns[5]
 
 }
