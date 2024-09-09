@@ -37,3 +37,9 @@ func (repository TradingNoteRepository) List() []trading_note.TradingNoteSummari
 	repository.connection.Find(&tradingNoteSummaries)
 	return tradingNoteSummaries
 }
+
+func (repository TradingNoteRepository) Search(tradingNoteSummary trading_note.TradingNoteSummaries) []trading_note.TradingNoteSummaries {
+	var tradingNoteSummaries []trading_note.TradingNoteSummaries
+	repository.connection.Find(&tradingNoteSummaries, tradingNoteSummary)
+	return tradingNoteSummaries
+}
