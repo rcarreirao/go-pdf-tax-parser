@@ -1,5 +1,7 @@
 package document
 
 type Document struct {
-	Content string
+	Filename string
+	Filedir  string
+	Content  string
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 
 	"github.com/rcarreirao/pdf_balance_parser/pkg/model/auction"
@@ -16,6 +17,7 @@ import (
 type auctionDayPFunc func(*string)
 
 func LoadRegexMapAuction() {
+	regexesKeys = nil
 	regexes = make(map[int]map[int]string)
 	regexes[0] = map[int]string{0: `(?i)Data pregão`, 1: `[0-9\/]*`, 2: `(?i)[0-9\/]*`, 3: `\d[0-9\/]*`}
 	regexes[1] = map[int]string{0: `(?i)Codigo do Cliente`, 1: `[0-9]*`, 2: ``, 3: `\d[0-9]*`}
@@ -30,12 +32,14 @@ func ParseDocumentAuction(d document.Document) auction.AuctionDays {
 	LoadRegexMapAuction()
 
 	output, _ := iconv.ConvertString(d.Content, "iso-8859-1", "iso-8859-1")
+	fmt.Println("Parsing file:" + d.Filename)
 	fmt.Println(output)
 
 	var headerRegex *regexp.Regexp
 	var regexError error
 	var bodyRegex *regexp.Regexp
 	var auctionDay = new(auction.AuctionDays)
+	var auctionMonth = new(auction.AuctionMonths)
 	var auctionDaySummary = new(auction.AuctionDaySummary)
 	var auctionDayRowsFunc = []auctionDayPFunc{auctionDaySummary.AuctionDayLine1.ParseLines, auctionDaySummary.AuctionDayLine2.ParseLines, auctionDaySummary.AuctionDayLine3.ParseLines}
 
@@ -57,8 +61,19 @@ func ParseDocumentAuction(d document.Document) auction.AuctionDays {
 			fmt.Printf(fmt.Sprintf("\033[0;31m%s\033[0m", regexError))
 		}
 	}
-	composeAuctionDay(auctionDaySummary, auctionDay)
-	storeOrUpdateAuctionDay(auctionDay)
+	if auctionDaySummary.AuctionDayLine1.AuctionDay.Format("2006") == "0001" {
+		fmt.Println("Unable to parse file correctly. Please check if the file isn't corrupted.")
+	} else {
+		composeAuctionDay(auctionDaySummary, auctionDay)
+		month, _ := (strconv.ParseUint(auctionDay.AuctionDay.Format("01"), 10, 0))
+		year, _ := (strconv.ParseUint(auctionDay.AuctionDay.Format("2006"), 10, 0))
+		auctionMonth.Month = uint(month)
+		auctionMonth.Year = uint(year)
+		storeOrUpdateAuctionMonth(auctionMonth)
+		auctionDay.AuctionMonthID = int(auctionMonth.ID)
+		storeOrUpdateAuctionDay(auctionDay)
+	}
+
 	return *auctionDay
 }
 
@@ -72,6 +87,11 @@ func storeAuctionDay(auctionDay *auction.AuctionDays) {
 	auctionDayRepository := new(auction_repository.AuctionDayRepository)
 	auctionDayRepository.New().Store(auctionDay)
 }
+
+func storeOrUpdateAuctionMonth(auctionMonth *auction.AuctionMonths) {
+	auctionDayRepository := new(auction_repository.AuctionMonthRepository)
+	auctionDayRepository.New().StoreOrUpdate(&auction.AuctionMonths{Month: auctionMonth.Month, Year: auctionMonth.Year}, auctionMonth)
+}
 func storeOrUpdateAuctionDay(auctionDay *auction.AuctionDays) {
 	auctionDayRepository := new(auction_repository.AuctionDayRepository)
 	auctionDayRepository.New().StoreOrUpdate(&auction.AuctionDays{AuctionDay: auctionDay.AuctionDay}, auctionDay)
@@ -83,8 +103,8 @@ func ListAuctionDays() []auction.AuctionDays {
 	return result
 }
 
-func ListMontlhyAuctions() []auction.MonthlyAuction {
-	auctionDayRepository := new(auction_repository.AuctionDayRepository)
-	result := auctionDayRepository.New().ListMonthlyAuctions()
+func ListAuctionMonthly() []auction.AuctionMonths {
+	auctionDayRepository := new(auction_repository.AuctionMonthRepository)
+	result := auctionDayRepository.New().List()
 	return result
 }

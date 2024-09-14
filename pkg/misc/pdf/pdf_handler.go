@@ -16,9 +16,9 @@ func ReadPdf(path string) (string, error) {
 	totalPage := r.NumPage()
 
 	fonts := make(map[string]*pdf.Font)
-	for _, name := range r.Page(1).Fonts() { // cache fonts so we don't continually parse charmap
+	for _, name := range r.Page(totalPage).Fonts() { // cache fonts so we don't continually parse charmap
 		if _, ok := fonts[name]; !ok {
-			f := r.Page(1).Font(name)
+			f := r.Page(totalPage).Font(name)
 			fonts[name] = &f
 		}
 	}

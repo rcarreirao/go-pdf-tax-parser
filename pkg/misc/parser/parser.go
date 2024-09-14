@@ -5,6 +5,7 @@ import (
 	"os"
 	"strings"
 
+	pdf_eof_fix "github.com/rcarreirao/golang_pdf_eof_fix"
 	"github.com/rcarreirao/pdf_balance_parser/pkg/misc/pdf"
 	"github.com/rcarreirao/pdf_balance_parser/pkg/model/document"
 )
@@ -18,7 +19,8 @@ func ParseFile(file string) document.Document {
 		panic(err)
 	}
 	document := document.Document{
-		Content: content,
+		Content:  content,
+		Filename: file,
 	}
 	return document
 }
@@ -29,8 +31,11 @@ func ParseDirectory(directory string) {
 		log.Fatal(err)
 	}
 
+	var fullpath string
 	for _, e := range entries {
-		ParseDocument(ParseFile(e.Name()))
+		fullpath = directory + "/" + e.Name()
+		pdf_eof_fix.FixEofOnPdfFile(fullpath)
+		ParseDocument(ParseFile(fullpath))
 	}
 }
 
