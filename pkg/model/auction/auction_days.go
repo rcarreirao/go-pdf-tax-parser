@@ -7,11 +7,12 @@ import (
 )
 
 type AuctionDays struct {
-	ID           uint `gorm:"primarykey"`
-	AuctionDay   time.Time
-	CustomerCode string
-	InvoiceId    float64
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
-	DeletedAt    gorm.DeletedAt `gorm:"index"`
+	ID             uint `gorm:"primarykey"`
+	AuctionMonthID int
+	AuctionDay     time.Time
+	CustomerCode   string
+	InvoiceId      float64
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
+	DeletedAt      gorm.DeletedAt `gorm:"index"`
 }

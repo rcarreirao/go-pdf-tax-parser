@@ -41,3 +41,51 @@ type TradingNoteSummaries struct {
 	TotalNetInvoice        float64
 	TotalNetInvoiceOp      string
 }
+
+func (tradingNoteSummary TradingNoteSummaries) GetBusinessValue() float64 {
+	var factor float64 = 1.0
+	if tradingNoteSummary.BusinessValueOp == "D" {
+		factor = -1.0
+	}
+	return tradingNoteSummary.BusinessValue * factor
+}
+
+func (tradingNoteSummary TradingNoteSummaries) GetTaxBmfValue() float64 {
+	var factor float64 = 1.0
+	if tradingNoteSummary.TaxBmfOp == "D" {
+		factor = -1.0
+	}
+	return tradingNoteSummary.TaxBmf * factor
+}
+
+func (tradingNoteSummary TradingNoteSummaries) GetDayTradeAdjustmentValue() float64 {
+	var factor float64 = 1.0
+	if tradingNoteSummary.DayTradeAdjustmentOp == "D" {
+		factor = -1.0
+	}
+	return tradingNoteSummary.DayTradeAdjustment * factor
+}
+
+func (tradingNoteSummary TradingNoteSummaries) GetTotalOperationalCostsValue() float64 {
+	var factor float64 = 1.0
+	if tradingNoteSummary.TotalOperationalCostsOp == "D" {
+		factor = -1.0
+	}
+	return tradingNoteSummary.TotalOperationalCosts * factor
+}
+
+func (tradingNoteSummary TradingNoteSummaries) GetTotalNetValue() float64 {
+	var factor float64 = 1.0
+	if tradingNoteSummary.TotalNetOp == "D" {
+		factor = -1.0
+	}
+	return tradingNoteSummary.TotalNet * factor
+}
+
+func (tradingNoteSummary TradingNoteSummaries) GetTotalNetInvoiceValue() float64 {
+	var factor float64 = 1.0
+	if tradingNoteSummary.TotalNetInvoiceOp == "D" {
+		factor = -1.0
+	}
+	return tradingNoteSummary.TotalNetInvoice * factor
+}

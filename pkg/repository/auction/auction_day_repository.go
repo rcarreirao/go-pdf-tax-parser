@@ -50,3 +50,9 @@ func (repository AuctionDayRepository) ListMonthlyAuctions() []auction.MonthlyAu
 	repository.connection.Table("auction_days").Distinct("strftime('%m-%Y', auction_day) as AuctionMonth").Find(&monthlyAuction)
 	return monthlyAuction
 }
+
+func (repository AuctionDayRepository) Search(auctionDay auction.AuctionDays) []auction.AuctionDays {
+	var auctionDays []auction.AuctionDays
+	repository.connection.Order("auction_day").Find(&auctionDays, auctionDay)
+	return auctionDays
+}
