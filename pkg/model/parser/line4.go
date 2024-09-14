@@ -25,9 +25,21 @@ func (l *Line4) ParseLines(line *string) {
 	l.IrrfOperational, _ = strconv.ParseFloat(columns[1], 64)
 	l.TotalInvestmentAccount, _ = strconv.ParseFloat(columns[2], 64)
 	l.TotalNormalAccount, _ = strconv.ParseFloat(columns[3], 64)
+	if l.TotalNormalAccount == 0 {
+		columns = append(columns, "C")
+		helper.ArrayInsertString(columns, "C", 3)
+	}
 	l.TotalInvestmentAccountOp = columns[4]
 	l.TotalNet, _ = strconv.ParseFloat(columns[5], 64)
+	if l.TotalNet == 0 {
+		columns = append(columns, "C")
+		helper.ArrayInsertString(columns, "C", 6)
+	}
 	l.TotalNetOp = columns[6]
 	l.TotalNetInvoice, _ = strconv.ParseFloat(columns[7], 64)
+	if l.TotalNetInvoice == 0 {
+		columns = append(columns, "C")
+		helper.ArrayInsertString(columns, "C", 8)
+	}
 	l.TotalNetInvoiceOp = columns[8]
 }

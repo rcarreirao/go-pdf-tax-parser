@@ -19,6 +19,7 @@ import (
 type pFunc func(*string)
 
 func LoadRegexMapTradingNote() {
+	regexesKeys = nil
 	regexes = make(map[int]map[int]string)
 	regexes[0] = map[int]string{0: `(?i)Venda dis`, 1: `[0-9a-zA-ZÀ-ÿ ]*`, 2: `ócios`, 3: `(?i)ócios[0-9, |a-zA-Z]* [C|D]+ `}
 	regexes[1] = map[int]string{0: `(?i)IRRF`, 1: `[0-9, |a-z A-ZÀ-ÿ&+().]*`, 2: `gar\)`, 3: `(?i)gar\)[0-9, |a-zA-Z]* [C|D]+ `}
@@ -36,6 +37,9 @@ func adjustCurrencyFormat(line *string) {
 }
 
 func ParseDocumentTradingNote(auctionDay auction.AuctionDays, d document.Document) {
+	if auctionDay.AuctionDay.Format("2006") == "0001" {
+		return
+	}
 	output, _ := iconv.ConvertString(d.Content, "iso-8859-1", "iso-8859-1")
 	fmt.Println(output)
 	LoadRegexMapTradingNote()
